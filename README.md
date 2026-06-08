@@ -133,15 +133,8 @@ Le système est composé de deux parties principales :
 La STM32 interprète les combinaisons braille puis envoie les commandes à la MKS, qui contrôle les moteurs et l'électroaimant afin de réaliser l'impression.
 
 
-# Quelques images
+# La machine BrailleRAP et clavier 
 
-Vous pouvez ajouter ici des photos du projet :
-
-* Photo de la BrailleRAP
-* Photo du clavier
-* Photo de la carte STM32
-* Photo de la carte MKS Gen L
-* Photo du prototype final
-
+![clv](Images/clv.jpg)
 
 
