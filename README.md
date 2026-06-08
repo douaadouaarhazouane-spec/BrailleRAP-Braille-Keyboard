@@ -133,8 +133,5 @@ Le système est composé de deux parties principales :
 La STM32 interprète les combinaisons braille puis envoie les commandes à la MKS, qui contrôle les moteurs et l'électroaimant afin de réaliser l'impression.
 
 
-# La machine BrailleRAP et clavier 
-
-![clv](Images/clv.jpeg)
 
 
