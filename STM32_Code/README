@@ -1,0 +1,178 @@
+# Guide de compréhension du code STM32
+
+## Introduction
+
+Ce document explique le fonctionnement du programme développé pour la carte STM32. Il ne suppose aucune connaissance préalable en électronique ou en programmation embarquée. L'objectif est de comprendre la logique du code et le rôle de chaque partie.
+
+
+
+# 1. Pourquoi inclure des bibliothèques (`#include`) ?
+
+Au début du programme, plusieurs bibliothèques sont incluses.
+
+Exemple :
+
+
+#include "main.h"
+#include <stdio.h>
+#include <string.h>
+
+
+Ces fichiers fournissent des fonctions déjà existantes qui permettent de communiquer avec la STM32, d'utiliser les ports série ou encore de manipuler des chaînes de caractères.
+
+
+
+# 2. Pourquoi déclarer des fonctions au début ?
+
+Exemple :
+
+void print_A(void);
+void print_B(void);
+void sendGcode(char *cmd);
+
+
+Ces lignes sont appelées **prototypes de fonctions**.
+
+Elles indiquent au compilateur que ces fonctions seront définies plus loin dans le programme. Cela permet d'appeler une fonction avant même que son code soit écrit.
+
+
+# 3. Pourquoi créer des variables globales ?
+
+Exemple :
+
+float currentX;
+float currentY;
+
+
+Ces variables mémorisent la position actuelle de la tête d'impression.
+
+Ainsi, lorsqu'une nouvelle lettre doit être imprimée, le programme sait où se trouve déjà la machine et peut calculer le prochain déplacement.
+
+
+# 4. Que fait la fonction `main()` ?
+
+La fonction `main()` est le point de départ du programme.
+
+Lors de la mise sous tension de la STM32 :
+
+1. les périphériques sont initialisés ;
+2. les GPIO sont configurés ;
+3. la communication UART est démarrée ;
+4. le programme entre dans une boucle infinie.
+
+
+
+# 5. Pourquoi utiliser une boucle `while(1)` ?
+
+Exemple :
+
+
+while(1)
+{
+
+}
+
+
+La STM32 doit fonctionner en permanence. Elle attend continuellement qu'un utilisateur appuie sur un bouton.
+
+La boucle infinie permet donc de répéter les mêmes opérations sans jamais arrêter le programme.
+
+Le fonctionnement est le suivant :
+
+Attendre
+
+↓
+
+Lire les boutons
+
+↓
+
+Identifier la combinaison
+
+↓
+
+Exécuter la fonction
+
+↓
+
+Revenir au début
+
+# 6. Pourquoi lire les 6 boutons ?
+
+Exemple :
+
+
+b1 = HAL_GPIO_ReadPin(...);
+b2 = HAL_GPIO_ReadPin(...);
+...
+b6 = HAL_GPIO_ReadPin(...);
+
+
+Chaque bouton représente un point de la cellule braille.
+
+Une lettre est définie par une combinaison de ces six points. Il est donc nécessaire de connaître l'état de chacun des boutons afin de déterminer le caractère demandé.
+
+
+
+# 7. Pourquoi utiliser des `if` et `else if` ?
+
+Exemple :
+
+if (...)
+    print_A();
+
+else if (...)
+    print_B();
+
+
+Le programme compare la combinaison des boutons avec les différentes combinaisons braille.
+
+Lorsque la combinaison correspond à une lettre, la fonction associée est exécutée.
+
+
+
+# 8. Pourquoi créer une fonction pour chaque lettre ?
+
+Exemple :
+
+void print_A()
+
+ou
+
+void print_B()
+
+Chaque fonction décrit les déplacements nécessaires pour imprimer une lettre.
+
+Cette organisation rend le programme plus lisible et facilite l'ajout de nouvelles lettres ou de nouveaux symboles.
+
+# 9. Pourquoi utiliser `sendGcode()` ?
+
+La STM32 ne pilote pas directement les moteurs.
+
+Elle envoie des commandes G-code à la carte MKS Gen L, qui exécute ensuite les mouvements grâce au firmware Marlin.
+
+# 10. Pourquoi utiliser `movePoint()` ?
+
+Cette fonction déplace la tête d'impression vers les coordonnées correspondant au point braille à imprimer.
+
+Elle évite de réécrire les mêmes instructions dans toutes les lettres.
+
+
+# 11. Pourquoi utiliser `hitMagnet()` ?
+
+Cette fonction active puis désactive l'électroaimant.
+
+Son rôle est de former un point braille sur la feuille.
+
+
+
+# 12. Pourquoi séparer le programme en plusieurs fonctions ?
+
+Découper le programme en fonctions permet :
+
+* une meilleure lisibilité ;
+* une maintenance plus simple ;
+* un débogage plus facile ;
+* l'ajout rapide de nouvelles fonctionnalités.
+
+C'est une pratique recommandée dans le développement logiciel et embarqué.
