@@ -36,30 +36,6 @@ MKS Gen L
 Moteurs + électroaimant
    ↓
 Feuille braille
-## Fonctionnement général
-
-Le fonctionnement du système est simple et entièrement autonome. L'utilisateur appuie sur une combinaison de boutons correspondant à une lettre en braille. La carte STM32 lit l'état des boutons, reconnaît le caractère associé puis génère les commandes G-code nécessaires.
-
-Ces commandes sont envoyées par une liaison UART à la carte MKS Gen L, qui exécute les déplacements des moteurs et active l'électroaimant afin de former les points braille sur la feuille.
-
-
-Lecture des boutons
-        ↓
-Identification de la lettre
-        ↓
-Génération des commandes G-code
-        ↓
-Communication UART
-        ↓
-Carte MKS Gen L
-        ↓
-Déplacement des moteurs
-        ↓
-Activation de l'électroaimant
-        ↓
-Impression du caractère braille
-
-
 
 ## Fonctionnement général
 
