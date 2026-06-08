@@ -135,6 +135,6 @@ La STM32 interprète les combinaisons braille puis envoie les commandes à la MK
 
 # La machine BrailleRAP et clavier 
 
-![clv](Images/clv.jpg)
+![clv](Images/clv.jpeg)
 
 
