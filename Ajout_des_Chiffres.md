@@ -1,0 +1,29 @@
+# Ajout des chiffres au clavier Braille
+
+## Objectif
+
+Afin de permettre la saisie des chiffres sur le clavier Braille, il est nécessaire d'ajouter une touche supplémentaire. En Braille, les chiffres sont obtenus en utilisant un indicateur numérique avant les lettres correspondantes. Cette fonctionnalité nécessite donc une entrée dédiée sur le clavier.
+
+## Modification matérielle
+
+La première étape consiste à ajouter un nouvel emplacement (trou) sur le clavier afin d'installer un bouton supplémentaire.
+
+Ce bouton sera relié à la carte STM32 de la manière suivante :
+
+- Une borne du bouton est connectée à la broche **PB13** de la STM32 (ou une autre broche GPIO libre si nécessaire).
+- L'autre borne est connectée au **GND**.
+
+Lorsque le bouton est appuyé, la broche PB13 est mise à l'état logique bas (LOW), ce qui permet au programme de détecter l'activation du mode numérique.
+
+## Modification logicielle
+
+Après l'ajout du bouton, le programme doit être modifié pour :
+
+1. Initialiser la broche **PB13** en entrée avec une résistance de tirage interne (`INPUT_PULLUP` ou configuration équivalente sur STM32).
+2. Lire l'état de cette broche à chaque saisie.
+3. Si le bouton est activé, envoyer le symbole Braille correspondant à l'indicateur numérique.
+4. Interpréter ensuite les combinaisons des six points comme des chiffres au lieu des lettres.
+
+## Remarque
+
+Le choix de la broche **PB13** est proposé à titre d'exemple. Toute broche GPIO disponible sur la STM32 peut être utilisée, à condition d'être correctement configurée dans le programme et câblée avec le bouton.
